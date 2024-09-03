@@ -28,14 +28,44 @@ function displayBooks() {
         let authorCell = row.insertCell(1);
         let pagesCell = row.insertCell(2);
         let readCell = row.insertCell(3);
+        let deleteCell = row.insertCell(4);
+        let toggleReadCell = row.insertCell(5);
 
         titleCell.textContent = book.title;
         authorCell.textContent = book.author;
         pagesCell.textContent = book.pages;
         readCell.textContent = book.read;
+
+        let deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener("click", () => {
+            deleteBook(index);
+        });
+        deleteCell.appendChild(deleteButton);
+
+        let toggleReadButton = document.createElement("button");
+        toggleReadButton.textContent = "Toggle Read";
+        toggleReadButton.addEventListener("click", () => {
+            toggleReadStatus(index);
+        });
+        toggleReadCell.appendChild(toggleReadButton);
     });
+}
+
+function deleteBook(index) {
+    myLibrary.splice(index, 1);
+    displayBooks();
+}
+
+function toggleReadStatus(index) {
+    myLibrary[index].read = myLibrary[index].read === "yes" ? "no" : "yes";
+    displayBooks();
 }
 
 document.getElementById("newBookButton").addEventListener("click", () => {
     document.getElementById("newBookForm").style.display = "block";
+});
+
+document.getElementById("onlyTableButton").addEventListener("click", () => {
+    document.getElementById("newBookForm").style.display = "none";
 });
